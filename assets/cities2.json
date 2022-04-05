@@ -1,0 +1,168 @@
+[
+    {
+        "id": "1",
+        "name": "Dharmendra Road",
+        "stand": "Ashwa"
+    },
+    {
+        "id": "2",
+        "name": "Dr. Yagnik Road",
+        "stand": "Ashwa"
+    },
+    {
+        "id": "3",
+        "name": "Gondal Road",
+        "stand": "Ashwa"
+    },
+    {
+        "id": "4",
+        "name": "Gundawadi",
+        "stand": "Ashwa"
+    },
+    {
+        "id": "5",
+        "name": "Amin Marg",
+        "stand": "Ashwa"
+    },
+    {
+        "id": "6",
+        "name": "Bhakti Nagar",
+        "stand": "Garud"
+    },
+    {
+        "id": "7",
+        "name": "Bhavnagar Road",
+        "stand": "Garud"
+    },
+    {
+        "id": "8",
+        "name": "Canal Road",
+        "stand": "Garud"
+    },
+    {
+        "id": "9",
+        "name": "Harihar Chowk",
+        "stand": "Garud"
+    },
+    {
+        "id": "10",
+        "name": "Jay Nath Foundry",
+        "stand": "Garud"
+    },
+    {
+        "id": "11",
+        "name": "Jamnagar Road",
+        "stand": "Sinh"
+    },
+    {
+        "id": "12",
+        "name": "Jawahar Road",
+        "stand": "Sinh"
+    },
+    {
+        "id": "13",
+        "name": "Kalawad Road",
+        "stand": "Sinh"
+    },
+    {
+        "id": "14",
+        "name": "Kanak Road",
+        "stand": "Sinh"
+    },
+    {
+        "id": "15",
+        "name": "Karanpara",
+        "stand": "Sinh"
+    },
+    {
+        "id": "16",
+        "name": "Kotharia Road",
+        "stand": "Airawat"
+    },
+    {
+        "id": "17",
+        "name": "Lakhajiraj Road",
+        "stand": "Airawat"
+    },
+    {
+        "id": "18",
+        "name": "Laxmiwadi Main Road",
+        "stand": "Airawat"
+    },
+    {
+        "id": "19",
+        "name": "Limda Chowk",
+        "stand": "Airawat"
+    },
+    {
+        "id": "20",
+        "name": "Mangala Main Road",
+        "stand": "Airawat"
+    },
+    {
+        "id": "21",
+        "name": "Mavdi",
+        "stand": "Jatayu"
+    },
+    {
+        "id": "22",
+        "name": "Millpara",
+        "stand": "Jatayu"
+    },
+    {
+        "id": "23",
+        "name": "Tagore Road",
+        "stand": "Jatayu"
+    },
+    {
+        "id": "24",
+        "name": "Sanganawa Chowk",
+        "stand": "Jatayu"
+    },
+    {
+        "id": "25",
+        "name": "Sadar",
+        "stand": "Jatayu"
+    },
+    {
+        "id": "26",
+        "name": "Rajputpara",
+        "stand": "Mrigah"
+    },
+    {
+        "id": "27",
+        "name": "Raiya Road",
+        "stand": "Mrigah"
+    },
+    {
+        "id": "28",
+        "name": "Prahalad Road",
+        "stand": "Mrigah"
+    },
+    {
+        "id": "29",
+        "name": "Motitanki Chowk",
+        "stand": "Mrigah"
+    },
+    {
+        "id": "30",
+        "name": "Vidya Nagar Main Road",
+        "stand": "Mrigah"
+    },
+    {
+        "id": "31",
+        "name": "University Road",
+        "stand": "Mayura"
+    },
+    {
+        "id": "32",
+        "name": "Soni Bazar",
+        "stand": "Mayura"
+    },
+    {
+        "id": "33",
+        "name": "Sardar Nagar",
+        "stand": "Mayura"
+    }
+
+]
