@@ -400,7 +400,7 @@ class _RegisterState extends State<Register> {
                           // print(response.toString());
                           try {
                             Response response = await dio
-                                .post('http://10.0.2.2:5000/user/register',
+                                .post('https://api-ecolyf-alt.herokuapp.com/user/register',
                                     // "http://10.0.2.2:3000/user/",
                                     options: Options(headers: {
                                       HttpHeaders.contentTypeHeader:

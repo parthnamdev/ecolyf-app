@@ -25,7 +25,7 @@ class _CycleAvailabilityState extends State<CycleAvailability> {
   // Future<void> getStats() async {
   //   var token = await storage.read(key: "token");
   //   Response response = await dio.get(
-  //     "http://10.0.2.2:5000/home/getUser",
+  //     "https://api-ecolyf-alt.herokuapp.com/home/getUser",
   //     options: Options(headers: {
   //       HttpHeaders.contentTypeHeader: "application/json",
   //       HttpHeaders.authorizationHeader: "Bearer " + token!
@@ -36,7 +36,7 @@ class _CycleAvailabilityState extends State<CycleAvailability> {
   //     user = response.data['data']['user'];
   //     print(user);
   //     Response response1 = await dio.get(
-  //       "http://10.0.2.2:5000/home/getStats",
+  //       "https://api-ecolyf-alt.herokuapp.com/home/getStats",
   //       options: Options(headers: {
   //         HttpHeaders.contentTypeHeader: "application/json",
   //         HttpHeaders.authorizationHeader: "Bearer " + token
@@ -204,7 +204,7 @@ class _CycleAvailabilityState extends State<CycleAvailability> {
                             var token = await storage.read(key: "token");
                                 
                             Response response = await dio.post(
-                              'http://10.0.2.2:5000/home/prebook',
+                              'https://api-ecolyf-alt.herokuapp.com/home/prebook',
                               options: Options(headers: {
                                 HttpHeaders.contentTypeHeader: "application/json",
                                 HttpHeaders.authorizationHeader:

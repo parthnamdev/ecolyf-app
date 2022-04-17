@@ -1,5 +1,6 @@
 import 'package:ecolyf_app/constants.dart';
 import 'package:ecolyf_app/screens/home/home.dart';
+import 'package:ecolyf_app/screens/home/tracker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -43,6 +44,8 @@ class _WrapperState extends State<Wrapper> {
     } else {
       if (value != null) {
         return const Home();
+        // return const Tracker();
+
       } else {
         return const Authenticate();
       }

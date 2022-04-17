@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:ecolyf_app/constants.dart';
+import 'package:ecolyf_app/screens/profile/about.dart';
 import 'package:ecolyf_app/screens/profile/components/profilePic.dart';
 import 'package:ecolyf_app/screens/wrapper.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
   Future<void> getStats() async {
     var token = await storage.read(key: "token");
     Response response = await dio.get(
-      "http://10.0.2.2:5000/home/getUser",
+      "https://api-ecolyf-alt.herokuapp.com/home/getUser",
       options: Options(headers: {
         HttpHeaders.contentTypeHeader: "application/json",
         HttpHeaders.authorizationHeader: "Bearer " + token!
@@ -38,7 +39,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
       user = response.data['data']['user'];
       print(user);
       Response response1 = await dio.get(
-        "http://10.0.2.2:5000/home/getStats",
+        "https://api-ecolyf-alt.herokuapp.com/home/getStats",
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: "application/json",
           HttpHeaders.authorizationHeader: "Bearer " + token
@@ -169,7 +170,10 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                     ),
                     SizedBox(height: 20),
                     Center(
-                      child: OutlinedButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          OutlinedButton(
                         // padding: EdgeInsets.symmetric(horizontal: 40),
 
                         // shape: RoundedRectangleBorder(
@@ -179,21 +183,10 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        onPressed: () async {
-                          var token = await storage.read(key: "token");
-                          print('1');
-                          Response response = await dio.post(
-                            "http://10.0.2.2:5000/user/logout/",
-                            options: Options(headers: {
-                              HttpHeaders.contentTypeHeader: "application/json",
-                              HttpHeaders.authorizationHeader:
-                                  "Bearer " + token!
-                            }),
-                          );
-                          await storage.delete(key: "token");
-                          Navigator.of(context).pushReplacement(
+                        onPressed: () {
+                          Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (BuildContext context) => Wrapper()),
+                                builder: (BuildContext context) => About()),
                           );
                           // Navigator.pushReplacement(
                           //   context,
@@ -203,15 +196,66 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                           // );
                         },
                         child: Text(
-                          "SIGN OUT",
+                          "ABOUT US",
                           style: TextStyle(
                             fontSize: 16,
                             letterSpacing: 2,
-                            // color: Colors.black,
+                            color: kDark,
                           ),
                         ),
                       ),
-                    )
+                      SizedBox(width: 10.0,),
+                          OutlinedButton(
+                            // padding: EdgeInsets.symmetric(horizontal: 40),
+
+                            // shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(20)),
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () async {
+                              var token = await storage.read(key: "token");
+                              print('1');
+                              Response response = await dio.post(
+                                "https://api-ecolyf-alt.herokuapp.com/user/logout/",
+                                options: Options(headers: {
+                                  HttpHeaders.contentTypeHeader: "application/json",
+                                  HttpHeaders.authorizationHeader:
+                                      "Bearer " + token!
+                                }),
+                              );
+                              await storage.delete(key: "token");
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) => Wrapper()),
+                              );
+                              // Navigator.pushReplacement(
+                              //   context,
+                              //   MaterialPageRoute(builder: (context) {
+                              //     return Wrapper();
+                              //   }),
+                              // );
+                            },
+                            child: Text(
+                              "SIGN OUT",
+                              style: TextStyle(
+                                fontSize: 16,
+                                letterSpacing: 2,
+                                // color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          
+                          
+                        ],
+                      ),
+                    ),
+                    // SizedBox(height: 20),
+                    // Center(
+                    //   child: 
+                    // ),
                   ],
                 ),
               ),

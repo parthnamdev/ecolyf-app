@@ -51,18 +51,20 @@ class _BookState extends State<Book> with AutomaticKeepAliveClientMixin {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(height: size.height * 0.01),
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
+                  GestureDetector(
+                    onTap: () {
                           Navigator.of(context).push(
                                   MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          QRScanner()),
+                                      builder: (BuildContext context) {
+                                        return QRScanner();
+                                      }
+                                          ),
                                 );
                         },
-                        child: CircularText(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        CircularText(
                           children: [
                             TextItem(
                               text: Text(
@@ -97,33 +99,33 @@ class _BookState extends State<Book> with AutomaticKeepAliveClientMixin {
                           position: CircularTextPosition.inside,
                           // backgroundPaint: Paint()..color = Colors.grey.shade200,
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(kDefaultPadding * 2),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(size.height),
-                            color: MediaQuery.of(context).platformBrightness ==
-                                    Brightness.dark
-                                ? kDark[900]
-                                : kLight,
-                            boxShadow: [
-                              BoxShadow(
-                                // color: Color(0xFF000000).withAlpha(60),
-                                color: kPrimaryColor,
-                                blurRadius: 10.0,
-                                spreadRadius: 7.0,
-                                offset: Offset(
-                                  0.0,
-                                  0.0,
+                        Container(
+                          padding: EdgeInsets.all(kDefaultPadding * 2),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(size.height),
+                              color: MediaQuery.of(context).platformBrightness ==
+                                      Brightness.dark
+                                  ? kDark[900]
+                                  : kLight,
+                              boxShadow: [
+                                BoxShadow(
+                                  // color: Color(0xFF000000).withAlpha(60),
+                                  color: kPrimaryColor,
+                                  blurRadius: 10.0,
+                                  spreadRadius: 7.0,
+                                  offset: Offset(
+                                    0.0,
+                                    0.0,
+                                  ),
                                 ),
-                              ),
-                            ]),
-                        child: Icon(
-                          Icons.directions_bike_rounded,
-                          size: 64,
+                              ]),
+                          child: Icon(
+                            Icons.directions_bike_rounded,
+                            size: 64,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Column(
                     children: [
@@ -198,7 +200,7 @@ class _BookState extends State<Book> with AutomaticKeepAliveClientMixin {
                                 String standName = stand.split(", ")[1].trim();
                                 // print('1');
                                 Response response = await dio.get(
-                                  "http://10.0.2.2:5000/home/getCycleData/" +
+                                  "https://api-ecolyf-alt.herokuapp.com/home/getCycleData/" +
                                       standName,
                                   options: Options(headers: {
                                     HttpHeaders.contentTypeHeader:
@@ -244,107 +246,113 @@ class _BookState extends State<Book> with AutomaticKeepAliveClientMixin {
               ),
             ),
           ),
-          Container(
-            // padding: const EdgeInsets.all(kDefaultPadding),
-            width: size.width * 0.6,
-            margin: EdgeInsets.only(bottom: 40),
-            child: Column(
-              children: [
-                Lottie.asset('assets/images/bike0.json', fit: BoxFit.cover),
-                Text(
-                  'Ecolyf',
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontSize: 26,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Text(
-                  'Greeningly affordable rides!',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
+          // Container(
+          //   // padding: const EdgeInsets.all(kDefaultPadding),
+          //   width: size.width * 0.6,
+          //   margin: EdgeInsets.only(bottom: 40),
+          //   child: Column(
+          //     children: [
+          //       Lottie.asset('assets/images/bike0.json', fit: BoxFit.cover),
+          //       Text(
+          //         'Ecolyf',
+          //         style: TextStyle(
+          //           color: kPrimaryColor,
+          //           fontSize: 26,
+          //         ),
+          //       ),
+          //       SizedBox(height: 10.0),
+          //       Text(
+          //         'Greeningly affordable rides!',
+          //         style: TextStyle(
+          //           fontSize: 16,
+          //         ),
+          //       ),
+          //       SizedBox(height: 80.0),
+          //     ],
+          //   ),
+          // ),
+          // Container(
+          //   // padding: const EdgeInsets.all(kDefaultPadding),
+          //   width: size.width * 0.7,
+          //   margin: EdgeInsets.only(bottom: 40),
+          //   child: Column(
+          //     children: [
+          //       Lottie.asset('assets/images/eco.json', fit: BoxFit.cover),
+          //       Text(
+          //         'Go green!',
+          //         style: TextStyle(
+          //           color: kPrimaryColor,
+          //           fontSize: 26,
+          //         ),
+          //       ),
+          //       SizedBox(height: 10.0),
+          //       Text(
+          //         'Contribute to renewable energy! \nDynamo equipped cycles',
+          //         textAlign: TextAlign.center,
+          //         style: TextStyle(
+          //           fontSize: 16,
+          //         ),
+          //       ),
+          //       SizedBox(height: 80.0),
+          //     ],
+          //   ),
+          // ),
+          // Container(
+          //   // padding: const EdgeInsets.all(kDefaultPadding),
+          //   width: size.width * 0.6,
+          //   margin: EdgeInsets.only(bottom: 40),
+          //   child: Column(
+          //     children: [
+          //       Lottie.asset('assets/images/bike.json', fit: BoxFit.cover),
+          //       Text(
+          //         'Ride on the go!',
+          //         style: TextStyle(
+          //           color: kPrimaryColor,
+          //           fontSize: 26,
+          //         ),
+          //       ),
+          //       SizedBox(height: 10.0),
+          //       Text(
+          //         'Find nearby stand \nand book your ride at ease!',
+          //         textAlign: TextAlign.center,
+          //         style: TextStyle(
+          //           fontSize: 16,
+          //         ),
+          //       ),
+          //       SizedBox(height: 80.0),
+          //     ],
+          //   ),
+          // ),
+          // Container(
+          //   // padding: const EdgeInsets.all(kDefaultPadding),
+          //   width: size.width * 0.4,
+          //   margin: EdgeInsets.only(bottom: 40),
+          //   child: Column(
+          //     children: [
+          //       Lottie.asset('assets/images/discount.json', fit: BoxFit.cover),
+          //       Text(
+          //         'Get discounts',
+          //         textAlign: TextAlign.center,
+          //         style: TextStyle(
+          //           color: kPrimaryColor,
+          //           fontSize: 26,
+          //         ),
+          //       ),
+          //       SizedBox(height: 10.0),
+          //       Text(
+          //         'More you travel\n More you earn points',
+          //         textAlign: TextAlign.center,
+          //         style: TextStyle(
+          //           fontSize: 16,
+          //         ),
+          //       ),
+                
               ],
             ),
           ),
-          Container(
-            // padding: const EdgeInsets.all(kDefaultPadding),
-            width: size.width * 0.6,
-            margin: EdgeInsets.only(bottom: 40),
-            child: Column(
-              children: [
-                Lottie.asset('assets/images/eco.json', fit: BoxFit.cover),
-                Text(
-                  'Go green!',
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontSize: 26,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Text(
-                  'Contribute to renewable energy! \nDynamo equipped cycles',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            // padding: const EdgeInsets.all(kDefaultPadding),
-            width: size.width * 0.6,
-            margin: EdgeInsets.only(bottom: 40),
-            child: Column(
-              children: [
-                Lottie.asset('assets/images/bike.json', fit: BoxFit.cover),
-                Text(
-                  'Ride on the go!',
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontSize: 26,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Text(
-                  'Find nearby stand \nand book your ride at ease!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            // padding: const EdgeInsets.all(kDefaultPadding),
-            width: size.width * 0.4,
-            margin: EdgeInsets.only(bottom: 40),
-            child: Column(
-              children: [
-                Lottie.asset('assets/images/discount.json', fit: BoxFit.cover),
-                Text(
-                  'Get discounts',
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontSize: 26,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Text(
-                  'More you travel\n More you earn points',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      )),
+        // ],
+      // )
+      // ),
     );
   }
 }
