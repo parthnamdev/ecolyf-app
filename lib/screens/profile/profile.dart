@@ -59,7 +59,12 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
       });
     }
   }
-
+  Future<void> _refreshPage() async {
+    setState(() {
+      isLoading = true;
+      getStats();
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -87,176 +92,180 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
               toolbarHeight: kToolbarHeight + 20.0,
               foregroundColor: kDark,
             ),
-            body: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: Padding(
-                padding: const EdgeInsets.all(kDefaultPadding),
-                child: Column(
-                  children: [
-                    ProfilePic(),
-                    Padding(
-                      padding: EdgeInsets.all(kDefaultPadding * 1.5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                stats != {} ? stats['rides'].toString() : '0',
-                                style: TextStyle(
-                                  color: kPrimaryColor,
-                                  fontSize: 44.0,
+            body: RefreshIndicator(
+              onRefresh: _refreshPage,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Padding(
+                  padding: const EdgeInsets.all(kDefaultPadding),
+                  child: Column(
+                    children: [
+                      ProfilePic(),
+                      Padding(
+                        padding: EdgeInsets.all(kDefaultPadding * 1.5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  stats != {} ? stats['rides'].toString() : '0',
+                                  style: TextStyle(
+                                    color: kPrimaryColor,
+                                    fontSize: 44.0,
+                                  ),
                                 ),
-                              ),
-                              Text('Rides'),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                user != {} ? user['distance'].toString() : '0',
-                                style: TextStyle(
-                                  color: kPrimaryColor,
-                                  fontSize: 44.0,
+                                Text('Rides'),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  user != {} ? user['distance'].toString() : '0',
+                                  style: TextStyle(
+                                    color: kPrimaryColor,
+                                    fontSize: 44.0,
+                                  ),
                                 ),
-                              ),
-                              Text('KMs'),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    ListTile(
-                      leading: Icon(Icons.badge_rounded),
-                      title: Text(
-                        user != {} ? user['name'] : 'name',
-                      ),
-                      tileColor: MediaQuery.of(context).platformBrightness ==
-                              Brightness.dark
-                          ? kDark[900]
-                          : kLight,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    ListTile(
-                      leading: Icon(Icons.numbers_rounded),
-                      title: Text(
-                        user != {} ? user['number'].toString() : 'number',
-                      ),
-                      tileColor: MediaQuery.of(context).platformBrightness ==
-                              Brightness.dark
-                          ? kDark[900]
-                          : kLight,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    ListTile(
-                      leading: Icon(Icons.mail_rounded),
-                      title: Text(
-                        user != {} ? user['email'] : 'email',
-                      ),
-                      tileColor: MediaQuery.of(context).platformBrightness ==
-                              Brightness.dark
-                          ? kDark[900]
-                          : kLight,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          OutlinedButton(
-                        // padding: EdgeInsets.symmetric(horizontal: 40),
-
-                        // shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(20)),
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (BuildContext context) => About()),
-                          );
-                          // Navigator.pushReplacement(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) {
-                          //     return Wrapper();
-                          //   }),
-                          // );
-                        },
-                        child: Text(
-                          "ABOUT US",
-                          style: TextStyle(
-                            fontSize: 16,
-                            letterSpacing: 2,
-                            color: kDark,
-                          ),
+                                Text('KMs'),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(width: 10.0,),
-                          OutlinedButton(
-                            // padding: EdgeInsets.symmetric(horizontal: 40),
-
-                            // shape: RoundedRectangleBorder(
-                            //     borderRadius: BorderRadius.circular(20)),
-                            style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            onPressed: () async {
-                              var token = await storage.read(key: "token");
-                              print('1');
-                              Response response = await dio.post(
-                                "https://api-ecolyf-alt.herokuapp.com/user/logout/",
-                                options: Options(headers: {
-                                  HttpHeaders.contentTypeHeader: "application/json",
-                                  HttpHeaders.authorizationHeader:
-                                      "Bearer " + token!
-                                }),
-                              );
-                              await storage.delete(key: "token");
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) => Wrapper()),
-                              );
-                              // Navigator.pushReplacement(
-                              //   context,
-                              //   MaterialPageRoute(builder: (context) {
-                              //     return Wrapper();
-                              //   }),
-                              // );
-                            },
-                            child: Text(
-                              "SIGN OUT",
-                              style: TextStyle(
-                                fontSize: 16,
-                                letterSpacing: 2,
-                                // color: Colors.black,
-                              ),
+                      SizedBox(height: 15),
+                      ListTile(
+                        leading: Icon(Icons.badge_rounded),
+                        title: Text(
+                          user != {} ? user['name'] : 'name',
+                        ),
+                        tileColor: MediaQuery.of(context).platformBrightness ==
+                                Brightness.dark
+                            ? kDark[900]
+                            : kLight,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      ListTile(
+                        leading: Icon(Icons.numbers_rounded),
+                        title: Text(
+                          user != {} ? user['number'].toString() : 'number',
+                        ),
+                        tileColor: MediaQuery.of(context).platformBrightness ==
+                                Brightness.dark
+                            ? kDark[900]
+                            : kLight,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      ListTile(
+                        leading: Icon(Icons.mail_rounded),
+                        title: Text(
+                          user != {} ? user['email'] : 'email',
+                        ),
+                        tileColor: MediaQuery.of(context).platformBrightness ==
+                                Brightness.dark
+                            ? kDark[900]
+                            : kLight,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            OutlinedButton(
+                          // padding: EdgeInsets.symmetric(horizontal: 40),
+            
+                          // shape: RoundedRectangleBorder(
+                          //     borderRadius: BorderRadius.circular(20)),
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          
-                          
-                        ],
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => About()),
+                            );
+                            // Navigator.pushReplacement(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) {
+                            //     return Wrapper();
+                            //   }),
+                            // );
+                          },
+                          child: Text(
+                            "ABOUT US",
+                            style: TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 2,
+                              color: kDark,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10.0,),
+                            OutlinedButton(
+                              // padding: EdgeInsets.symmetric(horizontal: 40),
+            
+                              // shape: RoundedRectangleBorder(
+                              //     borderRadius: BorderRadius.circular(20)),
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () async {
+                                var token = await storage.read(key: "token");
+                                print('1');
+                                Response response = await dio.post(
+                                  "https://api-ecolyf-alt.herokuapp.com/user/logout/",
+                                  options: Options(headers: {
+                                    HttpHeaders.contentTypeHeader: "application/json",
+                                    HttpHeaders.authorizationHeader:
+                                        "Bearer " + token!
+                                  }),
+                                );
+                                await storage.delete(key: "token");
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) => Wrapper()),
+                                );
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(builder: (context) {
+                                //     return Wrapper();
+                                //   }),
+                                // );
+                              },
+                              child: Text(
+                                "SIGN OUT",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  letterSpacing: 2,
+                                  // color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            
+                            
+                          ],
+                        ),
                       ),
-                    ),
-                    // SizedBox(height: 20),
-                    // Center(
-                    //   child: 
-                    // ),
-                  ],
+                      // SizedBox(height: 20),
+                      // Center(
+                      //   child: 
+                      // ),
+                    ],
+                  ),
                 ),
               ),
             ),

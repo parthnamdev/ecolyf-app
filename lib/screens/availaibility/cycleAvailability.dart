@@ -58,7 +58,7 @@ class _CycleAvailabilityState extends State<CycleAvailability> {
   // }
 
   int selectedType = 0;
-  String cycleType = "";
+  String cycleType = "Geared";
   final _formKey = GlobalKey<FormState>();
   final storage = FlutterSecureStorage();
   var dio = Dio();
@@ -219,6 +219,12 @@ class _CycleAvailabilityState extends State<CycleAvailability> {
                               });
                             } else {
                               Navigator.of(context).pop();
+                              Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return Home();
+                            }),
+                            );
                               print(response.toString());
                             }
                           }

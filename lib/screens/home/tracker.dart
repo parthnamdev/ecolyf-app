@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:ecolyf_app/constants.dart';
 import 'package:ecolyf_app/screens/home/home.dart';
+import 'package:ecolyf_app/screens/home/qrscannerEnd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -77,8 +78,8 @@ class _TrackerState extends State<Tracker> {
 
   @override
   void initState(){
-    super.initState();
     getLocation();
+    super.initState();
   }
 
 
@@ -86,13 +87,13 @@ class _TrackerState extends State<Tracker> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return isLoading ?  Container() : Scaffold(
-      appBar: AppBar(
-        title: const Text('Live location'),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        toolbarHeight: kToolbarHeight + 20.0,
-        foregroundColor: kDark,
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Live location'),
+      //   centerTitle: true,
+      //   backgroundColor: Colors.transparent,
+      //   toolbarHeight: kToolbarHeight + 20.0,
+      //   foregroundColor: kDark,
+      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.my_location_rounded),
@@ -142,32 +143,40 @@ class _TrackerState extends State<Tracker> {
           Positioned(bottom: kDefaultPadding, right: kDefaultPadding*2 + 100.0, left: kDefaultPadding, child:  GestureDetector(
                       
                       onTap: () async {
-                          var token = await storage.read(key: "token");
-                          Response response = await dio.post(
-                            'https://api-ecolyf-alt.herokuapp.com/home/end',
-                            options: Options(headers: {
-                              HttpHeaders.contentTypeHeader: "application/json",
-                              HttpHeaders.authorizationHeader:"Bearer " + token!,
-
-                            }),
-                            // data: jsonEncode(value),
-                            data: {},
-                          );
-                          if (response.data['status'] != true) {
-                            setState(() {
-                              message = response.data['message'];
-                            });
-                          } else {
-                            print(response.data);
-                            // Navigator.of(context).pop();
-                             Navigator.pushReplacement(
+                         Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) {
-                              return const Home();
+                              return const QRScannerEnd();
                             }),
                             );
-                            // print(response.toString());
-                          }
+                          // var token = await storage.read(key: "token");
+                          // Response response = await dio.post(
+                          //   'https://api-ecolyf-alt.herokuapp.com/home/end',
+                          //   options: Options(headers: {
+                          //     HttpHeaders.contentTypeHeader: "application/json",
+                          //     HttpHeaders.authorizationHeader:"Bearer " + token!,
+
+                          //   }),
+                          //   // data: jsonEncode(value),
+                          //   data: {
+
+                          //   },
+                          // );
+                          // if (response.data['status'] != true) {
+                          //   setState(() {
+                          //     message = response.data['message'];
+                          //   });
+                          // } else {
+                          //   print(response.data);
+                          //   // Navigator.of(context).pop();
+                          //    Navigator.pushReplacement(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) {
+                          //     return const Home();
+                          //   }),
+                          //   );
+                          //   // print(response.toString());
+                          // }
                         
                       },
                       child: Container(

@@ -48,6 +48,16 @@ class _RidesState extends State<Rides> with AutomaticKeepAliveClientMixin{
     }
   }
 
+  Future<void> _refreshPage() async{
+    setState(() {
+      List upcoming = [];
+      List current = [];
+      List finished = [];
+      isLoading = true;
+      getRides();
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -174,77 +184,80 @@ class _RidesState extends State<Rides> with AutomaticKeepAliveClientMixin{
             ),
           )
         : Scaffold(
-      appBar: AppBar(
+            appBar: AppBar(
         title: Text('Your Rides'),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         toolbarHeight: kToolbarHeight + 20.0,
         foregroundColor: kDark,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              createHeading('Upcoming'),
-              if(upcoming.isNotEmpty) ...[
-                for (int i=0; i<upcoming.length; i++) ... [
-                createCard(upcoming[i]),
-                ]
-              ] else ... [
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: Center(
-                    child: Text(
-              "No rides",
-              style: TextStyle(fontSize: 18),
             ),
+            body: RefreshIndicator(
+              onRefresh: _refreshPage,
+              child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                createHeading('Upcoming'),
+                if(upcoming.isNotEmpty) ...[
+                  for (int i=0; i<upcoming.length; i++) ... [
+                  createCard(upcoming[i]),
+                  ]
+                ] else ... [
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(kDefaultPadding),
+                    child: Center(
+                      child: Text(
+                "No rides",
+                style: TextStyle(fontSize: 18),
+              ),
+                    ),
                   ),
-                ),
+                ],
+                SizedBox(height: 30.0),
+                createHeading('Current'),
+                if(current.isNotEmpty) ...[
+                  for (int i=0; i<current.length; i++) ... [
+                  createCard(current[i]),
+                  ]
+                ] else ... [
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(kDefaultPadding),
+                    child: Center(
+                      child: Text(
+                "No rides",
+                style: TextStyle(fontSize: 18),
+              ),
+                    ),
+                  ),
+                ],
+                SizedBox(height: 30.0),
+                createHeading('Finished'),
+                if(finished.isNotEmpty) ...[
+                  for (int i=0; i<finished.length; i++) ... [
+                  createCard(finished[i]),
+                  ]
+                ] else ... [
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(kDefaultPadding),
+                    child: Center(
+                      child: Text(
+                "No rides",
+                style: TextStyle(fontSize: 18),
+              ),
+                    ),
+                  ),
+                ],
+                
               ],
-              SizedBox(height: 30.0),
-              createHeading('Current'),
-              if(current.isNotEmpty) ...[
-                for (int i=0; i<current.length; i++) ... [
-                createCard(current[i]),
-                ]
-              ] else ... [
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: Center(
-                    child: Text(
-              "No rides",
-              style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+              ),
             ),
-                  ),
-                ),
-              ],
-              SizedBox(height: 30.0),
-              createHeading('Finished'),
-              if(finished.isNotEmpty) ...[
-                for (int i=0; i<finished.length; i++) ... [
-                createCard(finished[i]),
-                ]
-              ] else ... [
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: Center(
-                    child: Text(
-              "No rides",
-              style: TextStyle(fontSize: 18),
-            ),
-                  ),
-                ),
-              ],
-              
-            ],
-          ),
-        ),
-      ),
-    );
+          );
   }
 }

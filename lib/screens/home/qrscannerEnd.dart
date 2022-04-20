@@ -9,13 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class QRScanner extends StatefulWidget {
-  const QRScanner();
+class QRScannerEnd extends StatefulWidget {
+  const QRScannerEnd({ Key? key }) : super(key: key);
+
   @override
-  State<QRScanner> createState() => _QRScannerState();
+  State<QRScannerEnd> createState() => _QRScannerEndState();
 }
 
-class _QRScannerState extends State<QRScanner> {
+class _QRScannerEndState extends State<QRScannerEnd> {
   final qrKey = GlobalKey(debugLabel: 'QR');
 
   Barcode? barcode;
@@ -45,7 +46,7 @@ class _QRScannerState extends State<QRScanner> {
     controller.scannedDataStream.listen((barcode){ 
       setState(() => this.barcode = barcode);
       setState(() => isScanned = true);
-      setState(() => message = "Click to Start!");
+      setState(() => message = "Click to End!");
       });
   }
 
@@ -91,17 +92,16 @@ class _QRScannerState extends State<QRScanner> {
                           print(barcode!.code);
                           var token = await storage.read(key: "token");
                           Response response = await dio.post(
-                            'https://api-ecolyf-alt.herokuapp.com/home/book',
+                            'https://api-ecolyf-alt.herokuapp.com/home/end',
                             options: Options(headers: {
                               HttpHeaders.contentTypeHeader: "application/json",
                               HttpHeaders.authorizationHeader:"Bearer " + token!,
 
                             }),
                             // data: jsonEncode(value),
-                            data: {"cycleUuid": barcode!.code},
+                            data: {"standName": barcode!.code},
                           );
                           if (response.data['status'] != true) {
-                            print(response.data);
                             setState(() {
                               message = response.data['message'];
                               isClicked = false;
@@ -109,13 +109,13 @@ class _QRScannerState extends State<QRScanner> {
                           } else {
                             print(response.data);
                             Navigator.of(context).pop();
-                             Navigator.pushReplacement(
+                            Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) {
                               return Home();
                             }),
                             );
-                            print(response.toString());
+                            // print(response.toString());
                           }
                         } else {
                           setState(() {
@@ -141,7 +141,7 @@ class _QRScannerState extends State<QRScanner> {
                               : Colors.white,
                           elevation: 5.0,
                           child: Center(
-                            child: isClicked ? Transform.scale(scale: 0.7, child: CircularProgressIndicator(color: kDark[900],)) : Text(
+                            child: isClicked ? Transform.scale(scale: 0.7, child: CircularProgressIndicator(color: kDark[900],)) :Text(
                               message,
                               style: TextStyle(
                                 // fontFamily: 'Raleway',
